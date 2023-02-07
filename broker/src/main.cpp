@@ -10,6 +10,10 @@ IPAddress local_IP(192, 168, 1, 251);
 IPAddress gateway(192, 168, 1, 254);
 IPAddress subnet(255, 255, 255, 0);
 
+const char* ssid = "ESP32"; //"LIVE TIM_9BD2_2G"; //"LIVE TIM_F200_2G";
+const char* password = "teste_automatiki"; //"7qmdtfuceq"; //"xpbcn8u37r";
+const unsigned short mqttPort = 1883;
+
 void otaEsp() {
   ArduinoOTA.setHostname("Broker32");
 
@@ -40,23 +44,19 @@ void setup() {
     Serial.println("Conectado com sucesso");
   }
 
-  const char* ssid = "LIVE TIM_9BD2_2G"; //"LIVE TIM_F200_2G";
-  const char* password = "7qmdtfuceq"; //"xpbcn8u37r";
-
   Serial.println("Tentando conectar a rede");
   WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED) {
     delay(1000);
     Serial.print(".");
   }
-  Serial.println("Conectado ao WiFi");
+  Serial.println("\nConectado ao WiFi");
   Serial.print("IP address:\t");
 
   Serial.println(WiFi.localIP());
 
   otaEsp();
 
-  const unsigned short mqttPort = 1883;
   broker.init(mqttPort);
 }
 
