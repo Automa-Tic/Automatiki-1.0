@@ -40,8 +40,8 @@ void setup() {
     Serial.println("Conectado com sucesso");
   }
 
-  const char* ssid = "LIVE TIM_F200_2G";
-  const char* password = "xpbcn8u37r";
+  const char* ssid = "LIVE TIM_9BD2_2G"; //"LIVE TIM_F200_2G";
+  const char* password = "7qmdtfuceq"; //"xpbcn8u37r";
 
   Serial.println("Tentando conectar a rede");
   WiFi.begin(ssid, password);

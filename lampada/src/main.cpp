@@ -3,11 +3,12 @@
 #include <WiFi.h>
 #include <PubSubClient.h>
 
-#define pinLED1 2
+#define pinLED 2
+#define pinLAMPADA 26
 
 // Informações de conexão WiFi
-const char* SSID = "LIVE TIM_F200_2G";
-const char* PASSWORD = "xpbcn8u37r";
+  const char* SSID = "LIVE TIM_9BD2_2G"; //"LIVE TIM_F200_2G";
+  const char* PASSWORD = "7qmdtfuceq"; //"xpbcn8u37r";
 WiFiClient wifiClient;
 
 // Informações do servidor MQTT
@@ -15,11 +16,14 @@ const char* BROKER_MQTT = "192.168.1.251";
 const int BROKER_PORT = 1883;
 
 #define ID_MQTT "BCI02"
-#define TOPIC_PUBLISH "BCI_LED"
-#define TOPIC_SUBESCRIBE "BCI"
+#define TOPIC_PUBLISH_LED "publish/led"
+#define TOPIC_PUBLISH_LAMPADA "publish/lampada"
+#define TOPIC_SUBESCRIBE_LED "subescribe/led"
+#define TOPIC_SUBESCRIBE_LAMPADA "subescribe/lampada"
 PubSubClient MQTT(wifiClient);
 
 //Informações do esp32
+bool led_status = false;
 bool lampada_status = false;
 
 //Funções 
@@ -54,7 +58,8 @@ void conectarMQTT() {
       Serial.print("com sucesso.");
       Serial.println(" com sucesso.");
 
-      MQTT.subscribe("BCIBotao1");
+        MQTT.subscribe(TOPIC_SUBESCRIBE_LED);
+        MQTT.subscribe(TOPIC_SUBESCRIBE_LAMPADA);
     }
     else {
       Serial.println("Falha ao conectar ao broker.");
@@ -80,25 +85,42 @@ void callback(char* topic, byte* payload, unsigned int length) {
     msg += c;
   }
 
-  if(msg == "1") {
+  if(msg == "led_1") {
     // lIGA O LED
-    digitalWrite(pinLED1, HIGH);
+    digitalWrite(pinLED, HIGH);
+
+    // Publica o status do LED
+    led_status = true;
+  }
+  if(msg == "led_0") {
+    // Desliga o LED
+    digitalWrite(pinLED, LOW);
+
+    // Publica o status do LED
+    led_status = false;
+  }
+
+  if(msg == "lampada_1") {
+    // lIGA O LED
+    digitalWrite(pinLAMPADA, HIGH);
 
     // Publica o status do LED
     lampada_status = true;
   }
-  if(msg == "0") {
+  if(msg == "lampada_0") {
     // Desliga o LED
-    digitalWrite(pinLED1, LOW);
+    digitalWrite(pinLAMPADA, LOW);
 
     // Publica o status do LED
     lampada_status = false;
   }
+
 }
 
 
 void setup() {
-  pinMode(pinLED1 , OUTPUT);
+  pinMode(pinLAMPADA , OUTPUT);
+  pinMode(pinLED , OUTPUT);
   Serial.begin(115200);
 
   conectarWifi();
@@ -109,9 +131,9 @@ void setup() {
 void loop() {
   mantemConexoes();
 
-  MQTT.publish(TOPIC_PUBLISH, lampada_status ? "ligada" : "desligada");
-      // Publica o status da lâmpada a cada segundo
-  
+  MQTT.publish(TOPIC_PUBLISH_LED, led_status ? "ligada" : "desligada"); // Publica o status da lâmpada a cada segundo
+  MQTT.publish(TOPIC_PUBLISH_LAMPADA, lampada_status ? "ligada" : "desligada"); // Publica o status da lâmpada a cada segundo
+
   MQTT.loop();
 }
 
