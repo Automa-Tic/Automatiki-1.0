@@ -16,25 +16,6 @@ const char* ssid = "LIVE TIM_9BD2_2G"; //"LIVE TIM_F200_2G";
 const char* password = "7qmdtfuceq"; //"xpbcn8u37r";
 const unsigned short mqttPort = 1883;
 
-void otaEsp() {
-  ArduinoOTA.setHostname("Broker32");
-
-  ArduinoOTA.onStart([]() {
-    String type;
-    if(ArduinoOTA.getCommand() == U_FLASH) {
-      type = "sketch";
-    }
-    else {
-      type = "filesystem";
-    }
-
-    Serial.println("Start updating" + type);
-  })
-  .onEnd([] () {
-    Serial.println("\nEnd");
-  });
-}
-
 void setup() {
   Serial.begin(115200);
 
@@ -53,11 +34,9 @@ void setup() {
     Serial.print(".");
   }
   Serial.println("\nConectado ao WiFi");
-  Serial.print("IP address:\t");
+  Serial.print("IP address: ");
 
   Serial.println(WiFi.localIP());
-
-  otaEsp();
 
   broker.init(mqttPort);
 
