@@ -1,7 +1,9 @@
 #include <sMQTTBroker.h>
 #include <ArduinoOTA.h>
+#include <ESPAsyncWebServer.h>
 
 sMQTTBroker broker;
+AsyncWebServer server(80);
 
 unsigned long Time;
 unsigned long freeRam;
@@ -10,8 +12,8 @@ IPAddress local_IP(192, 168, 1, 251);
 IPAddress gateway(192, 168, 1, 254);
 IPAddress subnet(255, 255, 255, 0);
 
-const char* ssid = "ESP32"; //"LIVE TIM_9BD2_2G"; //"LIVE TIM_F200_2G";
-const char* password = "teste_automatiki"; //"7qmdtfuceq"; //"xpbcn8u37r";
+const char* ssid = "LIVE TIM_9BD2_2G"; //"LIVE TIM_F200_2G";
+const char* password = "7qmdtfuceq"; //"xpbcn8u37r";
 const unsigned short mqttPort = 1883;
 
 void otaEsp() {
@@ -58,6 +60,14 @@ void setup() {
   otaEsp();
 
   broker.init(mqttPort);
+
+  // Define a rota para a página inicial
+server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
+request->send(200, "text/html", "<h1>Bem-vindo ao servidor local</h1>");
+});
+
+// Inicia o servidor
+server.begin();
 }
 
 void loop() {
