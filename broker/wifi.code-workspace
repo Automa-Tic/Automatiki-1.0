@@ -1,0 +1,29 @@
+{
+	"folders": [
+		{
+			"path": "../wifi"
+		},
+		{
+			"path": "."
+		},
+		{
+			"path": "../lampada"
+		},
+		{
+			"name": "servidor",
+			"path": "../../../../PlatformIO/Projects/servidor"
+		},
+		{
+			"name": "Central",
+			"path": "../Central"
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"system_error": "cpp",
+			"functional": "cpp",
+			"*.tcc": "cpp",
+			"fstream": "cpp"
+		}
+	}
+}
