@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>
+    Dispositivos
+  </title>
+  <link rel="stylesheet" href="dispositivos.css">
+  <style>
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 30px;
+    }
+
+    h1 {
+      margin: 0;
+    }
+
+    #datetime {
+      font-size: 20px;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Automatic</h1>
+    <div id="datetime"></div>
+    <nav>
+      <ul>
+        <li><a href="#">Início</a></li>
+        <li><a href="#">Sobre</a></li>
+        <li><a href="#">Contato</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <script>
+    function updateDateTime() {
+      const now = new Date();
+      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
+      const dateTime = now.toLocaleDateString('pt-BR', options);
+      document.getElementById('datetime').textContent = dateTime;
+    }
+
+    setInterval(updateDateTime, 1000);
+  </script>
+
+</body>
+</html>
+
+<html>
+<head>
+  <title>Menu Vertical</title>
+  <link rel="stylesheet" href="menu.css">
+</head>
+<body>
+  <div class="container">
+
+    <h1>Menu de dispositivos:</h1>
+
+  <ul>
+    <li><a href="#">Lampadas</a></li>
+    <li><a href="#">Cortinas</a></li>
+    <li><a href="#">Câmaras</a></li>
+    <li><a href="#">Janelas</a></li>
+  </ul>
+  </div>
+
+      <p class="paragrafo-final">Aqui você pode encontrar uma lista dos dispositivos suportados pelo nosso sistema automático.</p>
+
+
+</body>
+</html>
